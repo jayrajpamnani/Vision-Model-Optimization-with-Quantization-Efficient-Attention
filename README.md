@@ -27,6 +27,7 @@ HPML_Project_Git/
 ├── HPML_Project_Model_Finetuning+Prep.ipynb    # Model finetuning and quantization
 ├── Evaluation.ipynb                             # Model evaluation and benchmarking
 ├── Midpoint Project Checkpoint.ipynb            # Initial model comparison study
+├── Inferencing.ipynb                            # Inference with 4-bit + FlashAttention-2 model
 ├── Finetuned_Models/                            # Saved model checkpoints
 │   ├── merged_fp16.zip
 │   ├── quant_4bit.zip
@@ -91,7 +92,7 @@ The project uses the **Flower Classification Dataset** (102 classes) from Kaggle
 
 ## Project Milestones and Completion Status
 
-### ✅ Milestone 1: Study Existing Models and Compare Them (COMPLETED)
+### Milestone 1: Study Existing Models and Compare Them (COMPLETED)
 
 **Notebook**: `Midpoint Project Checkpoint.ipynb`
 
@@ -111,7 +112,7 @@ This milestone involves:
 2. Ensure Tiny-ImageNet or your target dataset is downloaded
 3. Review the generated comparison table
 
-### ✅ Milestone 2: Finetune Our Own Models (COMPLETED)
+### Milestone 2: Finetune Our Own Models (COMPLETED)
 
 **Notebook**: `HPML_Project_Model_Finetuning+Prep.ipynb`
 
@@ -142,7 +143,7 @@ This milestone covers:
 - `quant_8bit/`: 8-bit quantized model
 - `ablation_results.csv`: Layer-wise sensitivity analysis
 
-### ✅ Milestone 3: Evaluate Models (COMPLETED)
+### Milestone 3: Evaluate Models (COMPLETED)
 
 **Notebook**: `Evaluation.ipynb`
 
@@ -175,115 +176,30 @@ This milestone performs comprehensive evaluation:
   - Model Size vs VRAM bar chart
   - CUDA Kernel Time breakdown
 
-### ✅ Milestone 4: Inference with Best Model (COMPLETED)
+### Milestone 4: Inference with Best Model (COMPLETED)
 
-**Notebook**: `Evaluation.ipynb` (inference section)
+**Notebook**: `Inferencing.ipynb`
 
-After evaluation, select the best model based on your requirements:
-- **Best Accuracy**: Usually 8-bit quantized models
-- **Best Speed**: Usually 4-bit + FlashAttention-2
-- **Best Balance**: 4-bit SDPA often provides good accuracy-speed tradeoff
+This milestone demonstrates inference using the optimized 4-bit quantized model with FlashAttention-2:
+- Loading 4-bit quantized ViT model with FlashAttention-2 from Google Drive
+- Running inference on test dataset (819 images)
+- Visualizing predictions with flower class names
+- Saving results to CSV with top-5 predictions
 
-## Example Commands to Execute the Code
+**Key Features**:
+- **Model**: 4-bit quantized ViT with FlashAttention-2
+- **Performance**: ~2.23 ms/image, ~449 images/second throughput
+- **Output**: Predictions with class names from `cat_to_name.json`
 
-### Running the Finetuning Notebook
+**To Run**:
+1. Upload `Inferencing.ipynb` to Google Colab
+2. Mount Google Drive with model checkpoints and dataset
+3. Execute all cells sequentially
+4. Review visualizations and saved CSV results
 
-```bash
-# For Google Colab:
-# 1. Upload HPML_Project_Model_Finetuning+Prep.ipynb to Colab
-# 2. Select GPU runtime (A100 recommended)
-# 3. Run all cells sequentially
-
-# For local execution with Jupyter:
-jupyter notebook HPML_Project_Model_Finetuning+Prep.ipynb
-
-# Or convert to Python script:
-jupyter nbconvert --to script HPML_Project_Model_Finetuning+Prep.ipynb
-python HPML_Project_Model_Finetuning+Prep.py
-```
-
-### Running the Evaluation Notebook
-
-```bash
-# For Google Colab:
-# 1. Upload Evaluation.ipynb to Colab
-# 2. Mount Google Drive with model checkpoints
-# 3. Update paths in the notebook to point to your model directories
-# 4. Run all cells sequentially
-
-# For local execution:
-jupyter notebook Evaluation.ipynb
-```
-
-### Quick Start: Load and Evaluate a Quantized Model
-
-```python
-from transformers import AutoModelForImageClassification, BitsAndBytesConfig
-import torch
-
-# Load 4-bit quantized model
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_compute_dtype=torch.float16
-)
-
-model = AutoModelForImageClassification.from_pretrained(
-    "path/to/quant_4bit",
-    quantization_config=bnb_config,
-    device_map="auto"
-)
-
-# Evaluate on validation set
-from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
-
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-])
-
-val_dataset = datasets.ImageFolder("flower_data/dataset/valid", transform=transform)
-val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
-
-# Run evaluation
-model.eval()
-correct = 0
-total = 0
-with torch.no_grad():
-    for images, labels in val_loader:
-        images = images.to(model.device)
-        labels = labels.to(model.device)
-        outputs = model(images)
-        _, predicted = outputs.logits.max(1)
-        total += labels.size(0)
-        correct += predicted.eq(labels).sum().item()
-
-print(f"Accuracy: {100 * correct / total:.2f}%")
-```
-
-### Running Ablation Study
-
-```python
-# The ablation study is included in HPML_Project_Model_Finetuning+Prep.ipynb
-# Execute cells 7-8 to run the layer-wise sensitivity analysis
-# Results are saved to ablation_results.csv
-```
-
-### Benchmarking All Models
-
-```python
-# In Evaluation.ipynb, execute Cell 7 to benchmark all 5 models:
-# 1. Baseline ViT
-# 2. 4-bit + SDPA
-# 3. 8-bit + SDPA
-# 4. 4-bit + FlashAttention-2
-# 5. 8-bit + FlashAttention-2
-
-# Results are automatically aggregated into a DataFrame and visualized
-```
+**Outputs**:
+- Visualization of sample predictions with class names
+- CSV file with predictions saved to Google Drive
 
 ## Key Techniques & Implementation Details
 
@@ -326,10 +242,20 @@ Based on the evaluation results:
 
 The project includes comprehensive visualizations of model performance across all five variants. All visualization images are available in the `Images/` directory:
 
-- `Comparison_1.png` - Multi-metric comparison of all model variants
-- `Comparison_2.png` - Additional performance visualizations
-- `Sensitivity_bar.png` - Layer-wise quantization sensitivity analysis
-- `Effect_of_keeping_first:last_layers.png` - Impact of preserving first/last layers
+![Comparison 1](Images/Comparison_1.png)
+*Multi-metric comparison of all model variants*
+
+![Comparison 2](Images/Comparison_2.png)
+*Additional performance visualizations*
+
+![Sensitivity Bar](Images/Sensitivity_bar.png)
+*Layer-wise quantization sensitivity analysis*
+
+![First/Last Layers Effect](Images/Effect_of_keeping_first:last_layers.png)
+*Impact of preserving first/last layers*
+
+![Model Outputs During Inference](Images/Model_Outputs_During_inference.png)
+*Sample predictions from inference on test dataset*
 
 #### 1. Model Comparison Charts (`Comparison_1.png`, `Comparison_2.png`)
 
