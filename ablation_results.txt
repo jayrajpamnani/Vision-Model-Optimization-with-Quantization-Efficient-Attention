@@ -1,0 +1,115 @@
+Total Model Reloads: 52
+
+--- Testing 4-bit Quantization Sensitivity ---
+
+[4-bit] Baseline (Fully Quantized): Top-1 Acc = 0.8863
+[4-bit] Keep First/Last FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 0 FP16: Top-1 Acc = 0.8888
+[4-bit] Keep Layer 1 FP16: Top-1 Acc = 0.8888
+[4-bit] Keep Layer 2 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 3 FP16: Top-1 Acc = 0.8875
+[4-bit] Keep Layer 4 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 5 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 6 FP16: Top-1 Acc = 0.8875
+[4-bit] Keep Layer 7 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 8 FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 9 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 10 FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 11 FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 12 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 13 FP16: Top-1 Acc = 0.8863
+[4-bit] Keep Layer 14 FP16: Top-1 Acc = 0.8875
+[4-bit] Keep Layer 15 FP16: Top-1 Acc = 0.8888
+[4-bit] Keep Layer 16 FP16: Top-1 Acc = 0.8875
+[4-bit] Keep Layer 17 FP16: Top-1 Acc = 0.8875
+[4-bit] Keep Layer 18 FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 19 FP16: Top-1 Acc = 0.8900
+[4-bit] Keep Layer 20 FP16: Top-1 Acc = 0.8851
+[4-bit] Keep Layer 21 FP16: Top-1 Acc = 0.8961
+[4-bit] Keep Layer 22 FP16: Top-1 Acc = 0.8900
+[4-bit] Keep Layer 23 FP16: Top-1 Acc = 0.8888
+
+--- Testing 8-bit Quantization Sensitivity ---
+
+[8-bit] Baseline (Fully Quantized): Top-1 Acc = 0.9010
+[8-bit] Keep First/Last FP16: Top-1 Acc = 0.9010
+[8-bit] Keep Layer 0 FP16: Top-1 Acc = 0.9010
+[8-bit] Keep Layer 1 FP16: Top-1 Acc = 0.8961
+[8-bit] Keep Layer 2 FP16: Top-1 Acc = 0.9010
+[8-bit] Keep Layer 3 FP16: Top-1 Acc = 0.8998
+[8-bit] Keep Layer 4 FP16: Top-1 Acc = 0.8949
+[8-bit] Keep Layer 5 FP16: Top-1 Acc = 0.8961
+[8-bit] Keep Layer 6 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 7 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 8 FP16: Top-1 Acc = 0.9010
+[8-bit] Keep Layer 9 FP16: Top-1 Acc = 0.8973
+[8-bit] Keep Layer 10 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 11 FP16: Top-1 Acc = 0.8973
+[8-bit] Keep Layer 12 FP16: Top-1 Acc = 0.8936
+[8-bit] Keep Layer 13 FP16: Top-1 Acc = 0.9010
+[8-bit] Keep Layer 14 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 15 FP16: Top-1 Acc = 0.8961
+[8-bit] Keep Layer 16 FP16: Top-1 Acc = 0.8961
+[8-bit] Keep Layer 17 FP16: Top-1 Acc = 0.9022
+[8-bit] Keep Layer 18 FP16: Top-1 Acc = 0.9022
+[8-bit] Keep Layer 19 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 20 FP16: Top-1 Acc = 0.8998
+[8-bit] Keep Layer 21 FP16: Top-1 Acc = 0.8985
+[8-bit] Keep Layer 22 FP16: Top-1 Acc = 0.9022
+[8-bit] Keep Layer 23 FP16: Top-1 Acc = 0.9046
+
+=== Ablation Study Complete ===
+
+    Bit_Depth                  Experiment  Top1_Acc
+0           4  Baseline (Fully Quantized)  0.886308
+1           4        Keep First/Last FP16  0.885086
+2           4           Keep Layer 0 FP16  0.888753
+3           4           Keep Layer 1 FP16  0.888753
+4           4           Keep Layer 2 FP16  0.886308
+5           4           Keep Layer 3 FP16  0.887531
+6           4           Keep Layer 4 FP16  0.886308
+7           4           Keep Layer 5 FP16  0.886308
+8           4           Keep Layer 6 FP16  0.887531
+9           4           Keep Layer 7 FP16  0.886308
+10          4           Keep Layer 8 FP16  0.885086
+11          4           Keep Layer 9 FP16  0.886308
+12          4          Keep Layer 10 FP16  0.885086
+13          4          Keep Layer 11 FP16  0.885086
+14          4          Keep Layer 12 FP16  0.886308
+15          4          Keep Layer 13 FP16  0.886308
+16          4          Keep Layer 14 FP16  0.887531
+17          4          Keep Layer 15 FP16  0.888753
+18          4          Keep Layer 16 FP16  0.887531
+19          4          Keep Layer 17 FP16  0.887531
+20          4          Keep Layer 18 FP16  0.885086
+21          4          Keep Layer 19 FP16  0.889976
+22          4          Keep Layer 20 FP16  0.885086
+23          4          Keep Layer 21 FP16  0.896088
+24          4          Keep Layer 22 FP16  0.889976
+25          4          Keep Layer 23 FP16  0.888753
+26          8  Baseline (Fully Quantized)  0.900978
+27          8        Keep First/Last FP16  0.900978
+28          8           Keep Layer 0 FP16  0.900978
+29          8           Keep Layer 1 FP16  0.896088
+30          8           Keep Layer 2 FP16  0.900978
+31          8           Keep Layer 3 FP16  0.899756
+32          8           Keep Layer 4 FP16  0.894866
+33          8           Keep Layer 5 FP16  0.896088
+34          8           Keep Layer 6 FP16  0.898533
+35          8           Keep Layer 7 FP16  0.898533
+36          8           Keep Layer 8 FP16  0.900978
+37          8           Keep Layer 9 FP16  0.897311
+38          8          Keep Layer 10 FP16  0.898533
+39          8          Keep Layer 11 FP16  0.897311
+40          8          Keep Layer 12 FP16  0.893643
+41          8          Keep Layer 13 FP16  0.900978
+42          8          Keep Layer 14 FP16  0.898533
+43          8          Keep Layer 15 FP16  0.896088
+44          8          Keep Layer 16 FP16  0.896088
+45          8          Keep Layer 17 FP16  0.902200
+46          8          Keep Layer 18 FP16  0.902200
+47          8          Keep Layer 19 FP16  0.898533
+48          8          Keep Layer 20 FP16  0.899756
+49          8          Keep Layer 21 FP16  0.898533
+50          8          Keep Layer 22 FP16  0.902200
+51          8          Keep Layer 23 FP16  0.904645
